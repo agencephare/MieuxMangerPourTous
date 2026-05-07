@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMPT — Données vague 1</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { height: 100vh; overflow: hidden; background: #ffffff; }
+        .wrapper {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        iframe {
+            border: none;
+            /* scale(0.75) réduit l'affichage à 75%.
+               On compense en agrandissant width/height à 133%
+               (1 / 0.75 = 1.333) pour remplir l'écran après réduction.
+               Si encore trop zoomé → scale(0.65) + width/height: 154%
+               Si pas assez réduit  → scale(0.85) + width/height: 118% */
+            width: 133%;
+            height: 133%;
+            display: block;
+            transform: scale(0.75);
+            transform-origin: top left;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <iframe
+            src="https://1drv.ms/x/c/e58ad342c80c76d5/IQRLQewCQwXzQLM3MY9AK5ekAVNznI6C37AVRpVGyCeAsss?em=2&wdAllowInteractivity=True&wdHideGridlines=True&wdHideHeaders=True&wdInConfigurator=True&edaebf=rslc0"
+            scrolling="no"
+            allowfullscreen>
+        </iframe>
+    </div>
+</body>
+</html>
