@@ -6,35 +6,72 @@
     <title>MMPT — Données vague 1</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { height: 100vh; overflow: hidden; background: #ffffff; }
-        .wrapper {
-            width: 100%;
-            height: 100vh;
+
+        body {
             overflow: hidden;
-            position: relative;
+            background: #ffffff;
+            width: 100vw;
+            height: 100vh;
         }
+
+        .wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
         iframe {
             border: none;
-            /* scale(0.75) réduit l'affichage à 75%.
-               On compense en agrandissant width/height à 133%
-               (1 / 0.75 = 1.333) pour remplir l'écran après réduction.
-               Si encore trop zoomé → scale(0.65) + width/height: 154%
-               Si pas assez réduit  → scale(0.85) + width/height: 118% */
-            width: 133%;
-            height: 133%;
             display: block;
-            transform: scale(0.75);
+            /* On donne à l'iframe une largeur fixe très grande :
+               Excel Online voit "beaucoup de place" et réduit son zoom.
+               2400px correspond approximativement à un zoom ~70-75%.
+               Ajustez entre 2000px (plus zoomé) et 2800px (moins zoomé). */
+            width: 2400px;
+            height: 2000px;
+            /* On ramène ensuite l'ensemble à la taille de l'écran */
             transform-origin: top left;
+            transform: scale(var(--scale));
+        }
+
+        /* Masque le bouton "Visualiser en plein écran" d'Excel Online.
+           Il apparaît en bas à droite de l'iframe. */
+        .mask-fullscreen {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 180px;
+            height: 36px;
+            background: #ffffff;
+            z-index: 10;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
     <div class="wrapper">
         <iframe
+            id="xlframe"
             src="https://1drv.ms/x/c/e58ad342c80c76d5/IQRLQewCQwXzQLM3MY9AK5ekAVNznI6C37AVRpVGyCeAsss?em=2&wdAllowInteractivity=True&wdHideGridlines=True&wdHideHeaders=True&wdInConfigurator=True&edaebf=rslc0"
             scrolling="no"
             allowfullscreen>
         </iframe>
+        <div class="mask-fullscreen"></div>
     </div>
+
+    <script>
+        function setScale() {
+            const iframe = document.getElementById('xlframe');
+            // Calcule le ratio entre la largeur réelle de l'écran
+            // et la largeur fixe donnée à l'iframe
+            const scaleX = window.innerWidth  / 2400;
+            const scaleY = window.innerHeight / 2000;
+            // On prend le plus petit pour que tout rentre
+            const scale = Math.min(scaleX, scaleY);
+            document.documentElement.style.setProperty('--scale', scale);
+        }
+        setScale();
+        window.addEventListener('resize', setScale);
+    </script>
 </body>
 </html>
